@@ -1,0 +1,103 @@
+<footer>
+  <!-- CSS 파일 포함 -->
+  <link rel="stylesheet" href="/css/playerFootermini.css"> <!-- playerFooter.css 포함 -->
+
+  
+    <!-- 현재 재생 곡 정보 -->
+    <div class="container d-flex flex-column align-items-center">
+
+    <div class="spotify-player py-2 d-flex align-items-center justify-content-between">
+
+
+
+      <!-- 컨트롤 버튼과 볼륨 조절 -->
+      <!-- <div class="d-flex justify-content-between align-items-center w-100 px-4"> -->
+        <!-- 컨트롤 버튼 -->
+        
+        <div class="player-wrapper">
+          <!-- Header -->
+          <!-- 0117 -->
+          <div id="now-playing-info" class="d-flex align-items-center" >
+            <strong id="track-name" class="d-block">재생 중인 곡 없음</strong>
+            <small id="track-artist">아티스트 정보 없음</small>
+            <!-- Controls -->
+            <div class="control-btn">
+              <button id="prev-btn" class="control-btn">
+                <img src="/image/icon/previ.png" alt="Previous" />
+              </button>
+              <button id="play-btn" class="control-btn">
+                <img src="/image/icon/play.png" alt="Play" />
+              </button>
+              <button id="pause-btn" class="control-btn" style="display: none;">
+                <img src="/image/icon/pause.png" alt="Pause" />
+              </button>
+              <button id="next-btn" class="control-btn">
+                <img src="/image/icon/next.png" alt="Next" />
+              </button>
+            </div>
+          </div>
+        
+
+        
+          <!-- Progress Bar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  숫자 지움~!!!!! 변경~!`!~!~!~!~ -->
+          <div class="progress-section">
+            <span id="current-time"> &nbsp </span>
+            <div class="progress-bar-container">
+              <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <span id="total-time">  &nbsp </span>
+          </div>
+        
+
+        
+          <!-- Volume and Power -->
+          <div class="bottom-section">
+            <div class="volume-control">
+              <label for="volume-slider">Volume</label>
+              <input id="volume-slider" type="range" min="0" max="100" value="50" />
+            </div>
+            <div class="power-indicator">
+              <label>Power</label>
+              <div class="power-light"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script src="/js/spotify-player.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 볼륨 슬라이더 엘리먼트 선택
+      const volumeSlider = document.getElementById('volume-slider');
+
+      if (volumeSlider) {
+        // 슬라이더 클릭 시 focus 유지
+        volumeSlider.addEventListener('mousedown', () => {
+          volumeSlider.focus(); // 포커스를 설정
+        });
+
+        // 마우스 버튼을 뗄 때 focus 해제
+        volumeSlider.addEventListener('mouseup', () => {
+          volumeSlider.blur(); // 포커스를 해제
+        });
+
+        // 키보드 사용 시 focus 유지
+        volumeSlider.addEventListener('keydown', () => {
+          volumeSlider.focus(); // 키보드 사용 시 포커스를 유지
+        });
+
+        // 키보드 조작 후 focus 해제
+        volumeSlider.addEventListener('keyup', () => {
+          volumeSlider.blur(); // 키보드 사용 후 포커스를 해제
+        });
+      }
+    });
+  </script>
+
+  <!-- Bootstrap Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+</footer>

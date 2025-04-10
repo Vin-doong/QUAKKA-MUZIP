@@ -1,0 +1,79 @@
+/* 동영상 컨테이너 */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 메인 콘텐츠 초기 숨김 */
+#main-content {
+  display: none;
+}
+
+/* 전체 페이지 배경 설정 */
+body {
+  background-color: black; /* 배경 기본색 */
+  background-image: url('/image/bk.jpg'); /* 배경 이미지 */
+  background-repeat: no-repeat; /* 반복 없음 */
+  background-position: center; /* 중앙 정렬 */
+  background-size: cover; /* 이미지 크기 조정, 남는 공간은 검정 */
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* 화면 전체 높이 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px; /* 버튼 간격 */
+}
+
+/* 이미지 버튼 스타일 */
+.image-button {
+  width: 150px; /* 이미지 버튼 크기 */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease; /* 호버 시 확대 효과 */
+}
+
+.image-button:hover {
+  transform: scale(1.1); /* 호버 시 확대 */
+}
+
+/* 로그인 버튼 스타일 */
+#login-button {
+  background-color: rgb(150, 94, 253); /* 버튼 색상 보라색 */
+  color: white; /* 텍스트 색상 흰색 */
+  border: none; /* 테두리 없음 */
+  position: absolute; /* 위치를 절대값으로 설정 */
+  top: calc(43.8% + 60px); /* MUZIP 아래로 이동 */
+  left: 49%; /* 가로 중앙 정렬 */
+  transform: translate(-50%, -50%); /* 위치 정확히 중앙 조정 */
+  font-size: 17px; /* 폰트 크기 */
+  padding: 12px 22px; /* 버튼 크기 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer; /* 마우스 포인터 변경 */
+  transition: background-color 0.3s ease; /* 호버 시 색상 전환 효과 */
+  z-index: 1010; /* 다른 요소 위에 표시 */
+}
+
+#login-button:hover {
+  background-color: rgb(76, 21, 121); /* 호버 시 색상 진한 보라색 */
+}

@@ -1,0 +1,150 @@
+@font-face {
+  font-family: 'Ownglyph_ParkDaHyun';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Slim and Light Offcanvas Styles with Updated Colors */
+.offcanvas {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px; /* Adjust width to make it slimmer */
+  max-width: 80%; /* Ensure responsiveness */
+  background-color: #86a7a6; /* Light background */
+  border-left: 2px solid #6a8187; /* Medium-tone border */
+  box-shadow: 0 4px 12px rgba(82, 92, 99, 0.3); /* Subtle shadow */
+}
+
+/* Disable backdrop dimming */
+.offcanvas-backdrop {
+  display: none !important; /* Removes the background overlay */
+}
+
+/* Header styles */
+.offcanvas-header {
+  background-color: #6a8187; /* Medium background */
+  padding: 20px;
+  border-bottom: 1px solid #525c63; /* Darker tone border */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.offcanvas-header h5 {
+  font-family: 'Ownglyph_ParkDaHyun';
+  font-size: 1.3rem;
+  color: #ffffff; /* White for contrast */
+  margin: 0;
+}
+
+.offcanvas-header .btn-close {
+  background: none;
+  border: none;
+  color: #ffffff; /* Match text contrast */
+  font-size: 1.2rem;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.offcanvas-header .btn-close:hover {
+  
+  color: #525c63; /* Highlight with darker tone */
+  transform: scale(1.2);
+}
+
+/* Offcanvas body with custom background and padding */
+.offcanvas-body {
+  font-family: 'Ownglyph_ParkDaHyun';
+  padding: 20px;
+  background-color: #86a7a6; /* Main background */
+  font-family: 'Arial', sans-serif;
+  color: #444; /* Neutral text for readability */
+}
+
+/* Playlist list item styling */
+#playlists .list-group-item {
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px 16px;
+  background-color: #f7f7f7; /* Neutral light background */
+  color: #525c63; /* Dark tone for text */
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #6a8187; /* Subtle border */
+}
+
+#playlists .list-group-item:hover {
+  background-color: #97bac2; /* Medium tone on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 2px 6px rgba(82, 92, 99, 0.3); /* Subtle shadow */
+}
+
+/* Button styles for action buttons */
+#playlists .btn {
+  background-color: #525c63; /* Dark button background */
+  color: white;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  padding: 6px 14px;
+  width: 75px; /* Fixed width for all buttons */
+  line-height: 24px; /* Adjust line-height for text centering */
+  text-align: center; /* Center the text */
+  display: inline-block; /* Ensure buttons behave like inline-block */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+}
+
+#playlists .btn:hover {
+  background-color: #92b4bd; /* Medium tone on hover */
+  transform: translateY(-2px);
+}
+
+/* Offcanvas open shadow effect */
+.offcanvas.show {
+  box-shadow: 0 8px 16px rgba(82, 92, 99, 0.3); /* Consistent shadow */
+}
+
+/* Ensure responsive design */
+@media (max-width: 768px) {
+  .offcanvas {
+    width: 250px;
+  }
+
+  .offcanvas-header h5 {
+    font-size: 1.1rem;
+  }
+
+  #playlists .list-group-item {
+    font-size: 0.9rem;
+  }
+}
+
+/* Fetch button styles */
+#fetch-playlists-btn {
+  margin-top : 0px;
+  margin-right: 0px;
+  width: 120px; /* Increase button size */
+  height: 120px; /* Ensure it's a square button */
+  border: none; /* Remove border */
+  background-color: #525c63; /* Dark background */
+  border-radius: 50%; /* Make it circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#fetch-playlists-btn img {
+  width: 80px !important; /* 이미지의 너비를 강제로 설정 */
+  height: 80px !important; /* 이미지의 높이를 강제로 설정 */
+  object-fit: contain; /* 비율 유지하며 크기 조정 */
+  transition: transform 0.3s ease; /* 호버 시 확대 효과를 위해 트랜지션 추가 */
+}
+
+#fetch-playlists-btn:hover {
+  background-color: #92b4bd; /* Change background on hover */
+  transform: scale(1.2); /* Slightly enlarge on hover */
+}
+

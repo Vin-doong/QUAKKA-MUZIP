@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원정보</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="/favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+  <!-- 헤더 -->
+  <%- include('partials/header') %>
+
+  <!-- 이미지와 텍스트 영역 -->
+  <div class="image-container">
+    <img src="/image/profileback35.png" alt="배경 이미지" class="background-image" width="100vh" height="100vh">
+    <div class="text-overlay">
+      <img 
+        src="<%= user?.images?.[0]?.url || '/image/defaultprofile.png' %>" 
+        alt="프로필 이미지" 
+        class="profile-image"
+      >
+      <h5 class="overlay-title"><%= user?.display_name || '이름 정보 없음' %></h5>
+      <div class="text-left">
+        <!-- <%= user?.email || '이메일 정보 없음' %> -->
+        <p class="overlay-text">📧 Email: Raemi@naver.com</p>
+        <p class="overlay-text">💚 Followers: <%= user?.followers?.total || 0 %></p>
+        <p class="overlay-text"> 🔖 ID: <%= user?.id || 'ID 정보 없음' %></p>
+      </div>
+      <a href="/main" class="btn btn-secondary mt-3">홈으로</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>무드 기반 노래 검색</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="/favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/mood.css"> <!-- 추가된 CSS 파일 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 결과 보기 버튼 컬러 변경 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <style>
+    #submitMood {
+      background-color: #4f46e5; /* $indigo-600 색상 코드 */
+      border-color: #07026e;
+      border-width: 2px;
+      color: #fff; /* 텍스트를 흰색으로 설정 */
+    }
+    #submitMood:hover {
+      background-color: #4338ca; /* $indigo-700 색상 */
+      border-color: #695bff;  
+      border-width: 2px;
+    }
+    #create-playlist {
+      background-color: #53a748; /* $indigo-600 색상 코드 */
+      border-color: #2b5a32;
+      border-width: 2px;
+      color: #fff; /* 텍스트를 흰색으로 설정 */
+    }
+    #create-playlist:hover {
+      background-color: #2b5a32; /* $indigo-700 색상 */
+      border-color: #53a748;  
+      border-width: 2px;
+  }#moodBtn {
+  background: linear-gradient(45deg, #bee6e2, #0f766e); /* 기본 그라데이션 */
+  border-color: #3f977a; /* 테두리 색상 */
+  border-width: 2px;
+  color: #fccca0; /* 텍스트 색상 */
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000; /* 텍스트 테두리 */
+  width: 90px;
+  height: 45px;
+  font-size: 20px;
+  border-radius: 5px; /* 둥근 모서리 */
+  transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  }#moodBtn:hover {
+  background: linear-gradient(45deg, #35bd08, #bcccc1); 
+  border-color: #d89d30; 
+  color: #fccca0;
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
+  }#playButton {
+  background-color: #e49012; 
+  border-color: #886c20;
+  border-width: 2px;
+  color: #ffffff; /* 흰색 텍스트 */
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
+}#playButton:hover {
+  background-color: #d3b460; /* 호버 시 색상 */
+  border-color: #e49012;
+  border-width: 2px;
+}/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   끄 읏  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+      </style>
+      
+    </head>
+<body>
+    
+  <!-- 헤더 -->
+  <%- include('partials/header'); %>
+  <%- include('partials/offcanvas') %>
+
+  <div class="container text-center mt-5">
+    <h1>무드 기반 노래 검색</h1>
+
+    <!-- 질문 섹션 -->
+    <% const questions = [
+      { id: "question1", text: "1. 지금 기분은 어떤가요?", options: ["행복", "슬픔","즐거움","따분함","분노"] },
+      { id: "question2", text: "2. 에너지가 어떤가요?", options: ["활기참", "절반","낮음",'바닥'] },
+      { id: "question3", text: "3. 지금 듣고 싶은 음악의 분위기는?", options: ["파티",, "릴랙스","잔잔함","BGM"] },
+      { id: "question4", text: "3. 지금 듣고 싶은 음악의 종류?", options: ["클래식", "k-pop","POP","R&B","Rock","Jazz"] },
+
+    ]; %>
+
+    <% questions.forEach((question, index) => { %>
+      <div id="<%= question.id %>" class="mt-4 <%= index > 0 ? 'd-none' : '' %>">
+        <h3><%= question.text %></h3>
+        <% question.options.forEach((option, index) => { %>
+          <button id="moodBtn" class="btn btn-success mood-btn" data-value="<%= option.toLowerCase() %>">
+            <%= option %>
+          </button>
+        <% }); %>
+        
+      </div>
+    <% }); %>
+
+    <!-- 결과 및 초기화 버튼 -->
+    <div id="resultSection" class="mt-5 d-none">
+      <div class="d-flex justify-content-center gap-3">
+        <button id="submitMood" class="btn btn-success">결과 보기</button>
+        <button id="resetMood" class="btn btn-secondary">처음으로 돌아가기</button>
+      </div>
+    </div>
+
+    <!-- 플레이리스트 생성 양식 -->
+    <div id="playlistForm" class="mt-4 d-none">
+      <div class="mb-3">
+        <label for="playlistName" class="form-label">플레이리스트 이름</label>
+        <input type="text" id="playlistName" class="form-control" placeholder="플레이리스트 이름을 입력하세요">
+      </div>
+      <div class="mb-3">
+        <label for="playlistDescription" class="form-label">플레이리스트 설명</label>
+        <input type="text" id="playlistDescription" class="form-control" placeholder="플레이리스트 설명을 입력하세요">
+      </div>
+      <div class="mb-3">
+        <label for="publicOption" class="form-label">공개 설정</label>
+        <select id="publicOption" class="form-select">
+          <option value="true">공개</option>
+          <option value="false">개인</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 플레이리스트 담기 버튼 -->
+    <div id="playlistAction" class="mt-4 d-none">
+      <button id="create-playlist" class="btn btn-success border-color: #3f977a;
+      border-width: 2px;">플레이리스트 담기</button>
+    </div>
+
+    <!-- 결과 표시 -->
+    <div id="results" class="mt-5"></div>
+  </div>
+
+  <!-- 플레이어 푸터 추가 -->
+  <div id="playerFooterContainer" class="footer-container d-none">
+    <%- include('partials/playerFootermini'); %>
+  </div>
+
+  <script>
+    const selectedValues = [];
+    const questions = Array.from(document.querySelectorAll("[id^='question']"));
+    let currentQuestionIndex = 0;
+
+    // 문항 전환
+    function showNextQuestion() {
+      if (currentQuestionIndex < questions.length - 1) {
+        questions[currentQuestionIndex].classList.add('d-none');
+        currentQuestionIndex++;
+        questions[currentQuestionIndex].classList.remove('d-none');
+      } else {
+        document.querySelector('#resultSection').classList.remove('d-none');
+      }
+    }
+
+    // 버튼 클릭 이벤트 처리
+    document.querySelectorAll('.mood-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const value = button.getAttribute('data-value');
+        if (!selectedValues.includes(value)) {
+          selectedValues.push(value);
+        }
+        showNextQuestion();
+      });
+    });
+
+    // 결과 보기 버튼 클릭 이벤트
+
+    // 0110 raemi
+    let trackUris = []; // URI를 저장할 배열
+    document.getElementById('submitMood').addEventListener('click', async () => {
+      questions[currentQuestionIndex].classList.add('d-none');
+
+      try {
+        const response = await fetch('/mood', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ selectedValues }),
+        });
+
+        const data = await response.json();
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        // 0110 raemi
+        trackUris = data.map((track) => track.uri);
+
+        // 5곡씩 나눠서 렌더링
+        const chunkSize = 5;
+        for (let i = 0; i < data.length; i += chunkSize) {
+          const chunk = data.slice(i, i + chunkSize);
+
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'd-flex justify-content-center gap-3 flex-wrap';
+          chunk.forEach(track => {
+            const trackDiv = document.createElement('div');
+            trackDiv.className = 'card';
+            trackDiv.innerHTML = `
+              <img src="${track.album.images[0]?.url}" class="card-img-top" alt="${track.name}">
+              <div class="card-body">
+                <h5 class="card-title">${track.name}</h5>
+                <p class="card-text">아티스트: ${track.artists.map(artist => artist.name).join(', ')}</p>
+              <button id="playButton" class="btn btn-primary play-btn" data-uri="${track.uri}">PLAY</button>
+
+              </div>
+            `;
+            rowDiv.appendChild(trackDiv);
+          });
+          resultsDiv.appendChild(rowDiv);
+        }
+        //0117
+        // Play 버튼 이벤트 초기화
+        initializePlayButtonListeners();
+        //재생관련
+        document.querySelectorAll('.play-btn').forEach(button => {
+        button.addEventListener('click', event => {
+        const uri = event.target.getAttribute('data-uri');
+        playTrack(uri);
+        });
+        });
+
+        // 플레이리스트 생성 양식 및 버튼 표시
+        document.getElementById('playlistForm').classList.remove('d-none');
+        document.getElementById('playlistAction').classList.remove('d-none');
+
+        // Player Footer 표시
+        const playerFooterContainer = document.getElementById('playerFooterContainer');
+        playerFooterContainer.classList.remove('d-none');
+      } catch (error) {
+        console.error('결과 가져오기 실패:', error);
+        document.getElementById('results').innerText = '결과를 가져오는 데 실패했습니다.';
+      }
+    });
+
+    // 플레이리스트 생성 버튼 클릭 이벤트
+    document.getElementById('create-playlist').addEventListener('click', async () => {
+      try {
+        const playlistName = document.getElementById("playlistName").value;
+        const playlistDescription = document.getElementById("playlistDescription").value;
+        const publicOption = document.getElementById("publicOption").value;
+
+        const params = new URLSearchParams({
+          playlistName,
+          playlistDescription,
+          publicOption,
+          tracks: JSON.stringify(trackUris),
+        });
+
+        const response = await fetch(`/mood/onthehouse?${params.toString()}`);
+
+        if (!response.ok) throw new Error("플레이리스트 생성 실패");
+        alert("플레이리스트가 성공적으로 생성되었습니다!");
+      } catch (error) {
+        alert("플레이리스트 생성 중 오류가 발생했습니다: " + error.message);
+      }
+    });
+
+    // 처음으로 돌아가기 버튼 클릭 이벤트
+    document.getElementById('resetMood').addEventListener('click', () => {
+      selectedValues.length = 0;
+      currentQuestionIndex = 0;
+
+      questions.forEach((question, index) => {
+        question.classList.add('d-none');
+        if (index === 0) {
+          question.classList.remove('d-none');
+        }
+      });
+
+      document.getElementById('results').innerHTML = '';
+      document.getElementById('resultSection').classList.add('d-none');
+
+      const playerFooterContainer = document.getElementById('playerFooterContainer');
+      playerFooterContainer.classList.add('d-none');
+
+      document.getElementById('playlistForm').classList.add('d-none');
+      document.getElementById('playlistAction').classList.add('d-none');
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

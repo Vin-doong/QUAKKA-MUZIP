@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top 100 플레이리스트</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="/favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/top100.css"> <!-- Custom CSS for styling -->
+</head>
+<body>
+  <a href="/main" class="btn btn-primary home-button">
+    <img src="/image/favicon-32x32.png" alt="홈 로고" class="brand-image">
+    Home
+  </a>
+  <!-- Background GIF -->
+  <div id="background-gif" class="background-gif"></div>
+
+  <!-- Image as Title -->
+  <div class="logo-container">
+    <img src="/image/top100.png" alt="Top 100 Playlist" class="logo-image">
+  </div>
+  
+
+  <div class="slider-container">
+    <div class="slider-track">
+      <div class="slider-item" data-gif="moodgif1.gif">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/4cRo44TavIHN54w46OqRVc"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media">
+        </iframe>
+      </div>
+      <div class="slider-item" data-gif="moodgif2.gif">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media">
+        </iframe>
+      </div>
+      <div class="slider-item" data-gif="moodgif3.gif">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/37i9dQZEVXbNxXF4SkHj9F"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media">
+        </iframe>
+      </div>
+      <div class="slider-item" data-gif="moodgif4.gif">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media">
+        </iframe>
+      </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <button class="slider-button left" id="prevButton">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/chevron-left.png" alt="Previous">
+    </button>
+    <button class="slider-button right" id="nextButton">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/chevron-right.png" alt="Next">
+    </button>
+  </div>
+
+
+  <script>
+    const track = document.querySelector('.slider-track');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const sliderItems = Array.from(document.querySelectorAll('.slider-item'));
+    const backgroundGif = document.getElementById('background-gif');
+    
+    let currentIndex = 1; // Start at 1 to account for the cloned first item
+    const totalItems = sliderItems.length;
+    
+    // Clone the first and last items for seamless transitions
+    const firstClone = sliderItems[0].cloneNode(true);
+    const lastClone = sliderItems[sliderItems.length - 1].cloneNode(true);
+    
+    track.appendChild(firstClone); // Append the clone of the first item
+    track.insertBefore(lastClone, sliderItems[0]); // Prepend the clone of the last item
+    
+    const updatedSliderItems = document.querySelectorAll('.slider-item');
+    
+    // Set initial track position to the actual first slide
+    track.style.transform = `translateX(-100%)`;
+    
+    // Function to update the slider's position and background GIF
+    function updateSliderPosition() {
+      const offset = -currentIndex * 100; // Move slider by percentage
+      track.style.transition = 'transform 0.5s ease'; // Smooth transition
+      track.style.transform = `translateX(${offset}%)`;
+    
+      // Update background GIF based on the current playlist
+      const gif = updatedSliderItems[currentIndex].getAttribute('data-gif');
+      backgroundGif.style.backgroundImage = `url('image/${gif}')`;
+    }
+    
+    // Function to handle infinite loop transitions
+    function handleLoopTransition() {
+      track.style.transition = 'none'; // Disable transition for the jump
+      if (currentIndex === 0) {
+        currentIndex = totalItems; // Jump to the real last item
+      } else if (currentIndex === totalItems + 1) {
+        currentIndex = 1; // Jump to the real first item
+      }
+      const offset = -currentIndex * 100;
+      track.style.transform = `translateX(${offset}%)`;
+    }
+    
+    // Event listener for previous button
+    prevButton.addEventListener('click', () => {
+      currentIndex--;
+      updateSliderPosition();
+    
+      // Wait for transition to finish before handling the loop
+      setTimeout(handleLoopTransition, 500);
+    });
+    
+    // Event listener for next button
+    nextButton.addEventListener('click', () => {
+      currentIndex++;
+      updateSliderPosition();
+    
+      // Wait for transition to finish before handling the loop
+      setTimeout(handleLoopTransition, 500);
+    });
+    
+    // Initial background GIF setup
+    backgroundGif.style.backgroundImage = `url('image/${sliderItems[0].getAttribute('data-gif')}')`;
+    
+    </script>
+    
+  
+</body>
+</html>
